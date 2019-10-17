@@ -1,0 +1,69 @@
+<?php
+include('../default/header.php');
+require('../admin/logins.php'); /* connecte automatiquement à la bdd */
+
+if (!$conn) {
+    die('
+    <div class="content">
+    <h1 class="t1">Soumettre une annonce</h1>
+    <h2 class="t2">Erreur</h2>
+    <p class="critic">
+        Une erreur est survenue lors de la mise en ligne de votre annonce. Réessayez plus tard. <br>
+        Si ce n est pas votre première tentative, contactez un administrateur système
+        et communiquez-lui le code d erreur suivant : <br>' . $conn->mysqli_connect_error() . '</p> </div>');
+    }
+
+//     $sql = "INSERT INTO utilisateurs (nom, prenom, email, nigend) /* fonctionne mais vas falloir faire des tests plus poussés pour récupérer à chaque fois les infos données par le SSolocal FONCTIONNEL */
+// VALUES ('DAL MOLIN', 'Alexandre', 'saucisson@gmail.com', '0000000')";
+
+/* la commande plus haut est à utiliser avec les différentes variables et à chaque fois faire des entrées dans les tables
+avec les variables correspondantes */
+
+/* toujours remplir toutes les valeurs, notamment le nigend, qui n'a pas de valeur par défaut 
+récupérer le nigend etc avec le SSOlocal.php - voir l'adj pour récupérer le fichier 
+
+NOTE : tout vas se passer en prod, car le SSOlocal ne fonctionneras pas correctement sur un pc sur internet, + ne fonctionne que
+sur le serveur de prod
+
+du coup demander seulement le titre la photo la description de l'annonce ? :thinking: */
+
+
+// ici on up ce qu'on a mis dans le form
+// datetime : AAAA-MM-JJ HH:MM:SS
+
+?>
+
+<div class="content">
+    <h1 class="t1">Soumettre une annonce</h1>
+
+<?php
+
+if(mysqli_query($conn, $sql)) {
+    echo'
+    <h2 class="t2">Annonce envoyée</h2>
+    <p class="note">
+        Votre annonce a été mise en ligne avec succès !
+    </p>
+    <p>
+        Redirection à la page accueil dans 10 secondes...
+    </p>
+</div>
+<meta http-equiv="refresh" content="10; URL=../">
+';
+} else {
+    echo'
+    
+    <h2 class="t2">Erreur</h2>
+<p class="critic">
+    Une erreur est survenue lors de la mise en ligne de votre annonce. Réessayez plus tard. <br>
+    Si ce n est pas votre première tentative, contactez un administrateur système
+    et communiquez-lui le code d erreur suivant : <br>'
+    . $conn->mysqli_connect_error . '</p>
+</div>';
+}
+
+
+mysqli_close($conn);
+
+include('../default/footer.php');
+?>
